@@ -1,8 +1,10 @@
 package bouncingball;
 
+import java.awt.Color;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BallRoom extends UnicastRemoteObject implements BallPit {
 
@@ -14,7 +16,8 @@ public class BallRoom extends UnicastRemoteObject implements BallPit {
 		ballz = new ArrayList<Sprite>();
 	}
 
-	public void move() {
+	@Override
+	public void move() throws RemoteException {
 		for(Sprite ball:ballz){
 			try {
 				ball.move(getDime());
@@ -27,8 +30,8 @@ public class BallRoom extends UnicastRemoteObject implements BallPit {
 	}
 
 	@Override
-	public void newSprite(int x, int y) throws RemoteException {
-		Sprite ball = new Sprite(x,y);
+	public void newSprite(int x, int y, Color c) throws RemoteException {
+		Sprite ball = new Sprite(x,y,c);
 		ballz.add(ball);
 	}
 

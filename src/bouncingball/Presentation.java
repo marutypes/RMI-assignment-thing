@@ -12,15 +12,16 @@ public class Presentation {
 	private JFrame frame;
 	private BallPit pit;
 
-    private BallPanel panel = new BallPanel(pit);
+    private BallPanel panel;
 	
 	public Presentation() {
+        lookupPit("127.0.0.1");
+		panel = new BallPanel(pit);
 		frame = new JFrame("BallPit Client");
 		frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         frame.setVisible(true);
-        lookupPit("10.70.234.57");
 	}
 
 	public void lookupPit(String host){
