@@ -12,11 +12,11 @@ import java.util.Random;
 
 public class BallPanel extends JPanel {
 
-	BallPit pit;
+	BallSession pit;
 	ArrayList<Sprite> balls;
 	private Color color;
 	
-	public BallPanel(BallPit pit){
+	public BallPanel(BallSession pit){
 		this.pit = pit;
 		addMouseListener(new Mouse());
 		Random random = new Random();
@@ -28,19 +28,11 @@ public class BallPanel extends JPanel {
 	    	
 	    	try {
 				balls = pit.getList();
-				pit.move();
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        repaint();
-	        //sleep while waiting to display the next frame of the animation
-	        try {
-	            Thread.sleep(40);  // wake up roughly 25 frames per second
-	        }
-	        catch ( InterruptedException exception ) {
-	            exception.printStackTrace();
-	        }
 	    }
 	}
 	

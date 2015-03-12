@@ -7,14 +7,14 @@ import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 
-public class Presentation {
+public class BallClient {
 
 	private JFrame frame;
-	private BallPit pit;
+	private BallSession pit;
 
     private BallPanel panel;
 	
-	public Presentation() {
+	public BallClient() {
         lookupPit("127.0.0.1");
 		panel = new BallPanel(pit);
 		frame = new JFrame("BallPit Client");
@@ -26,7 +26,7 @@ public class Presentation {
 
 	public void lookupPit(String host){
 	try {
-			pit = (BallPit)Naming.lookup("rmi://"+host+":8081/BallRoom");
+			pit = (BallSession)Naming.lookup("rmi://"+host+":8081/BallRoom");
 		} catch(MalformedURLException e){
 			System.out.println("MalformedURLException");
 			System.out.println(e);
@@ -40,6 +40,6 @@ public class Presentation {
 	}
 	
 	public static void main(String[] args){
-		new Presentation().panel.animate();
+		new BallClient().panel.animate();
 	}
 }

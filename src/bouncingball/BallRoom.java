@@ -6,21 +6,24 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BallRoom extends UnicastRemoteObject implements BallPit {
+public class BallRoom extends UnicastRemoteObject implements BallSession {
 
-	private final static int DIME = 400;
+	private final int SIZE;
 	private ArrayList<Sprite> ballz;
 	
 	protected BallRoom() throws RemoteException {
-		super();
-		ballz = new ArrayList<Sprite>();
+		this(400);
+	}
+	protected BallRoom(int size) throws RemoteException {
+	    super();
+	    ballz = new ArrayList<Sprite>();
+	    SIZE = size;
 	}
 
-	@Override
-	public void move() throws RemoteException {
+	public void move() {
 		for(Sprite ball:ballz){
 			try {
-				ball.move(getDime());
+				ball.move(getSize());
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -29,6 +32,22 @@ public class BallRoom extends UnicastRemoteObject implements BallPit {
 
 	}
 
+	public void start() {
+		(new Thread(){
+			public void run(){
+			    while(true) {
+			    	  try {
+				            Thread.sleep(40);  // wake up roughly 25 frames per second
+				        }
+			    	  catch ( InterruptedException exception ) {
+			    		  exception.printStackTrace();
+				      }		    	  
+			    	  move();
+			      }
+			}
+		}).start();
+	}
+	
 	@Override
 	public void newSprite(int x, int y, Color c) throws RemoteException {
 		Sprite ball = new Sprite(x,y,c);
@@ -41,8 +60,8 @@ public class BallRoom extends UnicastRemoteObject implements BallPit {
 	}
 
 	@Override
-	public int getDime() throws RemoteException {
-		return DIME;
+	public int getSize() throws RemoteException {
+		return SIZE;
 	}
 
 }
